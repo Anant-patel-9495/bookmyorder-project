@@ -1,0 +1,65 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Menu</title>
+    <link rel="stylesheet" href="{% static '../static/files_for_frontpage/page1.css' %}">
+</head>
+
+<body>
+    <header>
+        <h1>Hotel Menu</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="{% url 'page1A' %}">Starters</a></li>
+            <li><a href="{% url 'page2A' %}">Main Courses</a></li>
+            <li><a href="{% url 'page3A' %}">Desserts</a></li>
+        </ul>
+    </nav>
+
+
+    <a href="{% url 'user_cart' %}" class="container-go">
+        <div>GO TO CART</div>
+    </a>
+
+
+    <a href="{% url 'page1A' %}" class="link">
+        <section id="Appetizers" class="box">
+            <h2>Appetizers</h2>
+            <p>Garlic Parmesan Fries</p>
+            <p>Spinach Artichoke Dip</p>
+            <p>Bruschetta</p>
+        </section>
+    </a>
+
+    <a href="{% url 'page2A' %}">
+        <section id="Main Courses" class="box">
+            <h2>Main Courses</h2>
+            <p>Grilled Chicken Breast</p>
+            <p>Spaghetti Carbonara</p>
+            <p>Vegetarian Stir-Fry</p>
+        </section>
+    </a>
+
+    <a href="{% url 'page3A' %}">
+        <section id="Desserts" class="box">
+            <h2>Desserts</h2>
+            <p>Chocolate Lava Cake</p>
+            <p>Tiramisu</p>
+            <p>Cheesecake</p>
+        </section>
+    </a>
+    <footer>
+        <p>&copy; 2023 Hotel Name</p>
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samosa Delight</title>
+    <link rel="stylesheet" href="{% static '../static/files_for_frontpage/page2A.css' %}">
+</head>
+
+<body>
+
+    <header>
+        <h1>Hotel Menu</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="{% url 'page1A' %}">Starters</a></li>
+            <li><a href="">Main Courses</a></li>
+            <li><a href="{% url 'page3A' %}">Desserts</a></li>
+        </ul>
+    </nav>
+
+    <a href="{% url 'user_cart' %}" class="container-go">
+        <div>GO TO CART</div>
+    </a>
+
+
+    <div class="container">
+        {% for di in dish_ingredients %}
+        <section class="menu-item-detail" id="menu-item-detail">
+            <div class="menu-item-description">
+                <h2 class="item-title">{{di.dish.dish_name}}</h2>
+                <p class="item-description">{{di.dish.dish_description}}</p>
+            </div>
+            <section class="menu-item-ingredients">
+                <h2 class="ingredient">Ingredients:</h2>
+                <ul class="item-ingredients">
+                    {% for ingredient in di.ingredients.mainIngredients %}
+                    <li>{{ingredient}}</li>
+                    {% endfor %}
+                </ul>
+                <h3 class="spice-title">Spice Level:</h3>
+                <label for="spice-level-mild">Mild</label>
+                <input type="radio" id="spice-level-mild" name="spice-level" value="Mild">
+                <label for="spice-level-medium">Medium</label>
+                <input type="radio" id="spice-level-medium" name="spice-level" value="Medium">
+                <label for="spice-level-spicy">Spicy</label>
+                <input type="radio" id="spice-level-spicy" name="spice-level" value="Spicy">
+                <br>
+                <label for="diet-conscious">Diet Conscious:</label>
+                <input type="checkbox" id="diet-conscious" name="diet-conscious">
+                <br>
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" min="1" value="1">
+                <span class="price">each : {{di.dish.dish_price}} ₹</span>
+                <button data-item-name="{{di.dish.dish_name}}" data-item-price="{{di.dish.dish_price}}" id="add-to-cart"
+                    class="item-button">Add to Cart</button>
+            </section>
+        </section>
+        {% endfor %}
+    </div>
+
+    <script src="{% static '../static/files_for_frontpage/page2A.js' %}"></script>
+</body>
+
+</html>

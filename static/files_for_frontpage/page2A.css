@@ -1,0 +1,100 @@
+body {
+    margin: 0px;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Style the navigation bar */
+nav ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    background-color: #444;
+    padding: 10px;
+    margin: 0px;
+}
+
+nav li {
+    margin: 0 10px;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+
+/* Go to cart box */
+.container-go div {
+    border-radius: 10px;
+    margin: 0px;
+    background-color: #ccc;
+    height: 100px;
+    margin: 20px 17px 20px 17px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Center vertically */
+    font-size: 30px;
+}
+
+/* Style each category section */
+section {
+    margin: 16px;
+    padding:7px;
+    background-color: #f2f1ef;
+    /* Change the background color for the starters section */
+    border-radius: 5px;
+    /* Add some border radius for a smoother look */
+}
+
+
+.item-title{
+    font-size: 30px;
+    margin-bottom: 0px;
+}
+
+.item-description{
+    font-size: 16px;
+    margin-bottom: 0px;
+}
+
+/* Style the 'Add to Cart' button */
+.item-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.item-button:hover {
+    background-color: #45a049;
+}
+
+/* Adjust spacing for better readability */
+.menu-item-ingredients,
+.spice-title,
+.item-button-container {
+    margin-top: 15px;
+}
+
+.item-ingredients li {
+    margin: 5px 0;
+}
+
+.price {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #777;
+}

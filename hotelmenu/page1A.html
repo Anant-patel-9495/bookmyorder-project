@@ -1,0 +1,52 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Menu - Appetizers</title>
+    <link rel="stylesheet" href="{% static '../static/files_for_frontpage/page(i).css' %}">
+</head>
+
+<body>
+    <header>
+        <h1>Hotel Menu</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="">Starters</a></li>
+            <li><a href="{% url 'page2A' %}">Main Courses</a></li>
+            <li><a href="{% url 'page3A' %}">Desserts</a></li>
+        </ul>
+    </nav>
+
+    <a href="{% url 'user_cart' %}" class="container-go">
+        <div>GO TO CART</div>
+    </a>
+
+    <section id="starters" class="menu-section">
+        
+        <h2 class="heading">Starters</h2>
+        <ul class="menu-list">
+            {% for item in items %}
+        <li class="menu-item">
+            <h4>{{item.dish_name}}</h4>
+            <p>{{item.dish_description}}</p>
+            <div class="quantity">
+                <button class="quantity-button minus">-</button>
+                <input class="quantity-input" type="number" value="1" min="1">
+                <button class="quantity-button plus">+</button>
+                <button data-item-name="{{item.dish_name}}" data-item-price="{{item.dish_price}}" class="add-to-cart">Add to Cart</button>
+            </div>
+            <div class="total-price">  Price: {{item.dish_price}} &#x20B9; </div>
+        </li>
+        {% endfor %}
+        </ul>
+    </section>
+    <script src="{% static '../static/files_for_frontpage/page(i).js' %}"></script>
+</body>
+
+</html>
