@@ -38,5 +38,6 @@ urlpatterns = [
 
     
     path('user_cart/', views.cart, name='user_cart'),
+    path('cook_site/', views.cook_site, name='cook_site')
     
 ]

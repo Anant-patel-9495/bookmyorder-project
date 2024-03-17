@@ -6,7 +6,10 @@ from django.contrib.auth.decorators import login_required
 from OnlineRestaurant.mainpage import *
 from OnlineRestaurant.hotelmenu import *
 import random
+from django.views.decorators.csrf import csrf_exempt
 from .models import *
+from django.http import JsonResponse
+import json
 
 # Create your views here.
 def basepage(request):
@@ -109,43 +112,43 @@ def page3A(request):
     queryset = Dish.objects.filter(dish_type = 'dessert')
     return render(request, 'page3A.html', {'items' : queryset})
 
-def cart(request):
-    return render(request, 'cart/cart.html')
-
 
 def page3A1(request):
     return render(request, 'page3A1.html')
 
-
-
-
-def create_order(request):
-    if request.method == 'POST':
+@csrf_exempt
+def cart(request):
+    if request.method == "POST":
         try:
-            # Parse the JSON data sent from cart.js
-            data = json.loads(request.body)
+            # Parse the JSON data from the request body
+            order_data = json.loads(request.body)
+            totalAmount=0
+            latest_customer = user_info.objects.order_by("-table_id").first()
+            for item in order_data['items']:
+                totalAmount += item['price'] * item['quantity']
 
-            # Extract the relevant information from the data
-            last_user_table_id = user_info.objects.latest('table_id').table_id
-            items = data.get('items')
-            total_amount = data.get('total_amount')
-
-            # Retrieve user_info instance based on customer_id
-            user_info_instance = user_info.objects.get(pk=last_user_table_id)
-
-            # Create the Order instance
-            order = Order.objects.create(
-                customer_id=user_info_instance,
-                items=items,
-                total_amount=total_amount
-                # Add more fields as needed
+            existing_order = Order.objects.filter(customer_id=latest_customer).first()
+            customer_order = Order(
+                customer_id=latest_customer,
+                items=order_data,
+                total_amount=totalAmount
             )
-
+            customer_order.save()
             # Return a success response
             return JsonResponse({'success': True})
-        except user_info.DoesNotExist:
-            return JsonResponse({'success': False, 'error': 'No user_info instance found'})
         except Exception as e:
+            # Return an error response if there's any exception
             return JsonResponse({'success': False, 'error': str(e)})
-    else:
-        return JsonResponse({'success': False, 'error': 'Invalid request method'})
+    # For GET request, simply render the cart page
+    return render(request, 'cart/cart.html')
+
+
+def cook_site(request):
+    
+    # Get waiting orders
+    waiting_orders = Order.objects.filter(is_order_completed=False)
+    orders_data = {}
+    for order in waiting_orders:
+        # Assuming items field in Order model is a JSONField
+        orders_data[order.customer_id.person_name] = order.items
+    return render(request, 'cook/cook.html', {'waiting_orders':orders_data})

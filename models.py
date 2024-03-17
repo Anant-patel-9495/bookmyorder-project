@@ -43,10 +43,11 @@ class DishIngredients(models.Model):
         ordering = ['dish__dish_type']
 
 class Order(models.Model):
-    customer_id = models.ForeignKey(user_info, on_delete=models.CASCADE)
+    customer_id = models.ForeignKey(user_info, on_delete=models.CASCADE, default=None)
     items = models.JSONField()  # Assuming you store the items as JSON in the order
-    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    total_amount = models.DecimalField(max_digits = 10000,decimal_places=0)
     order_date = models.DateTimeField(auto_now_add=True)
+    is_order_completed = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"Order for {self.customer.name} on {self.order_date}"
+        return f"Order for {self.customer_id.person_name} on {self.order_date}"

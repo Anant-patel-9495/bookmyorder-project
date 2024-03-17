@@ -1,0 +1,37 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cook Site</title>
+    <link rel="stylesheet" href="{% static 'cook_files/cook.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Cook Dashboard</h1>
+    </header>
+    <div id="order-list">
+        {% if waiting_orders %}
+            {% for customer, order_data in waiting_orders.items %}
+            <div class="order-details">
+                <h2>Customer: {{ customer }}</h2>
+                <ul>
+                    {% for item in order_data.items %}
+                    <li>Name: {{ item.name }}, Price: ${{ item.price }}, Quantity: {{ item.quantity }}</li>
+                    {% endfor %}
+                </ul>
+                <p>Total Amount: ${{ order_data.totalAmount }}</p>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No waiting orders at the moment.</p>
+        {% endif %}
+    </div>
+    <footer>
+        <p>&copy; 2024 Cook Site. All rights reserved.</p>
+    </footer>
+    <script src="{% static 'cook_files/cook.js' %}"></script>
+</body>
+</html>

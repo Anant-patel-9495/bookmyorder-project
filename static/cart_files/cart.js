@@ -108,56 +108,50 @@ function removeFromCart(index) {
 }
 
 function placeOrder(event) {
-    event.preventDefault(); // Prevent the default form submission behavior
-
-    console.log('Place Order function called!');
-
-    const cart = getCart();
-    let totalAmount = parseFloat(document.getElementById('total-amount')?.value);
-    const orderData = {
-        items: cart,
-        totalAmount: totalAmount,
-        // Add any additional order information here
-    };
-
     // Fetch CSRF token from the hidden input field
     const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+    const cart = getCart();
 
-    fetch('http://127.0.0.1:8000/user_cart/', {
+    // Prepare order data
+    // const orderData = {
+    //     items: cart,
+    // };
+
+    fetch('http://127.0.0.1:8000/user_cart/', {  // Replace '/your-django-order-endpoint/' with the actual URL endpoint
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': csrfToken,  // Include CSRF token
         },
-        body: JSON.stringify(orderData),
+        body: JSON.stringify(cart),
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.success) {
-            alert('Order placed successfully. Cook will start preparing your order.');
-            // Clear the cart after placing the order
-            localStorage.removeItem('cart');
-            displayCartItems();
-        } else {
-            alert('Failed to place the order. Please try again later.');
-        }
-    })
-    .catch(error => {
-        console.error('Error placing the order:', error);
-        alert('An error occurred while placing the order. Please try again later.');
-    });
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                alert('Order placed successfully. Cook will start preparing your order.');
+                // Clear the cart after placing the order
+                localStorage.removeItem('cart');
+                displayCartItems();
+            } else {
+                alert('Failed to place the order. Please try again later.');
+            }
+        })
+        .catch(error => {
+            console.error('Error placing the order:', error);
+            alert('An error occurred while placing the order. Please try again later.');
+        });
 }
 
 
-// Display cart items when the cart page loads
+
 document.addEventListener('DOMContentLoaded', function () {
     displayCartItems();
 
-    const orderButton = document.getElementById('order-button');
-    orderButton.addEventListener('click', placeOrder);
+    const orderForm = document.getElementById('order-form');
+    orderForm.addEventListener('submit', placeOrder); // Attach to the form's submit event
 });
