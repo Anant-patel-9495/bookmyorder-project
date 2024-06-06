@@ -1,0 +1,96 @@
+/* Reset default margin and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Style for header */
+header {
+    background-color: #f0f0f0;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Style for order container */
+.order-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+/* Style for each order card */
+.order-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    padding: 20px;
+    width: 400px;
+}
+
+/* Style for person name */
+.order-card h2 {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+/* Style for item container */
+.item-container {
+    margin-top: 10px;
+}
+
+/* Style for each item box */
+.item-box {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+
+/* Style for item name */
+.item-name {
+    font-weight: bold;
+}
+
+/* Style for spice level */
+.spice-level {
+    color: #ff6347; /* OrangeRed */
+    margin-left: 10px;
+}
+
+/* Style for diet conscious */
+.diet-conscious {
+    color: #32cd32; /* LimeGreen */
+    margin-left: 10px;
+}
+
+/* Style for quantity */
+.quantity {
+    margin-left: 10px;
+}
+
+/* Style for price */
+.price {
+    margin-left: 10px;
+    font-style: italic;
+}
+
+.submit-btn {
+    background-color: #4CAF50; /* Green background */
+    border: none;              /* Remove borders */
+    color: white;              /* White text */
+    padding: 15px 32px;        /* Some padding */
+    text-align: center;        /* Centered text */
+    text-decoration: none;     /* Remove underline */
+    display: inline-block;     /* Get it to line up correctly */
+    font-size: 16px;           /* Increase font size */
+    margin: 4px 2px;           /* Some margin */
+    cursor: pointer;           /* Pointer/hand icon */
+    border-radius: 12px;       /* Rounded corners */
+    transition: background-color 0.3s ease; /* Transition effect on hover */
+}
+
+.submit-btn:hover {
+    background-color: #45a049; /* Darker green on hover */
+}

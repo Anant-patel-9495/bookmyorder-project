@@ -1,0 +1,35 @@
+{% load static  %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Management</title>
+    <link rel="stylesheet" href="{% static '../static/css-js_for_manager_site/manager_frontpage.css' %}">
+</head>
+<body>
+
+<div class="container">
+    <h1>bookmyorder - Manager Site</h1>
+
+    <a href=""><div class="feature" id="salesOverview">
+        <h2>Sales Overview</h2>
+    </div></a>
+
+    <a href="{% url 'top_Seller'%}"><div class="feature" id="topSellingItems">
+        <h2>Top Selling Items</h2>
+        <!-- Add content for Top Selling Items here -->
+    </div></a>
+
+    <a href="{% url 'add_dish' %}"><div class="feature" id="revenueBreakdown">
+        <h2>Add Dish to Menu</h2>
+        <!-- Add content for Revenue Breakdown here -->
+    </div></a>
+
+    <!-- Add more feature sections as needed -->
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

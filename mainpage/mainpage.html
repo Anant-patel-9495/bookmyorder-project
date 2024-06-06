@@ -1,0 +1,100 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration page</title>
+    <link rel="stylesheet" href="{% static '../static/main_page/mainpage.CSS' %}">
+</head>
+
+<body>
+
+    <div id="container-1">
+        <header class="container">
+            <img src={% static '../static/main_page/main_page_image/logo.png' %} alt="source down">
+            <ul class="navigation">
+                <li><a href="#">Home</a></li>
+                <li><a href="{% url 'regestration' %}">Register</a></li>
+                <li><a href="{% url 'login_page' %}" class="register-btn">Login</a></li>
+            </ul>
+        </header>
+    </div>
+
+    <div id="customer-registration">
+        <h2>Customer Registration</h2>
+        <form action="{% url 'base_page' %}" method="POST">
+            {% csrf_token %}
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" maxlength="10" required>
+
+            <label for="family-members">Number of Family Members:</label>
+            <input type="number" id="family-members" name="family_members" required>
+
+            <button type="submit">Click here to go menu</button>
+        </form>
+    </div>
+
+    <section class="services-container">
+        <div id="service-box">
+            <div id="services">
+                <div class="box">
+                    <img src={% static '../static/main_page/main_page_image/logo.png' %}
+                        alt="source down">
+                    <h2 class="h-secondary center">Responsive Website</h2>
+                    <p class="center">A responsive SEO friendly modern website where you don't need any hosting but you
+                        can point your own domain with BookMyOrder.</p>
+                </div>
+                <div class="box">
+                    <img src={% static '../static/main_page/main_page_image/logo.png' %}
+                        alt="source down">
+                    <h2 class="h-secondary center">Restaurant Manage</h2>
+                    <p class="center">At BookMyOrder, a Restaurant Panel that will give you all the access and control
+                        of your website, orders, menus, content and much more.</p>
+                </div>
+                <div class="box">
+                    <img src={% static '../static/main_page/main_page_image/logo.png' %}
+                        alt="source down">
+                    <h2 class="h-secondary center">Support</h2>
+                    <p class="center">BookMyOrder offers Free Support agent that will help you to understand the system
+                        and keep moving. Let's create a delightful experience with our online food ordering system.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="container-4">
+        <section class="about">
+            <div class="column" id="column-1">
+                <h3>BookMyOrder</h3>
+                <p>We believe in simple, creative & flexible design standards</p>
+                <div id="logo">
+                    <img src={% static '../static/main_page/main_page_image/about_logo/facebook-logo.png' %} alt="..">
+                    <img src={% static '../static/main_page/main_page_image/about_logo/instragram-logo.avif' %} alt="..">
+                    <img src={% static '../static/main_page/main_page_image/about_logo/youtube-logo.png'%} alt=".." style="width: 28px;">
+                </div>
+            </div>
+            <div class="column" id="column-2">
+                <h3>Our Location</h3>
+                <p>Aakash office, althan, bhimrad road, surat, 395007</p>
+            </div>
+            <div class="column" id="column-3">
+                <h3>Quick Link</h3>
+                <a href="{% static "../mainpage/mainpage.html" %}">About Us</a><br><br>
+                <a href="{% static "../mainpage/mainpage.html" %}">Contact Us</a><br><br>
+                <a href="{% static "../mainpage/mainpage.html" %}">Schedule a demo</a><br><br>
+            </div>
+        </section>
+    </div>
+
+</body>
+
+</html>

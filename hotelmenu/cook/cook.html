@@ -1,0 +1,46 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cook Site</title>
+    <link rel="stylesheet" href="{% static 'cook_files/cook.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Waiting Orders</h1>
+    </header>
+    <main>
+        <div class="order-container">
+            {% for person, orders in waiting_orders.items %}
+            <div class="order-card">
+                <h2>{{ person }}</h2>
+                <div class="item-container">
+                    {% for item in orders %}
+                    <div class="item-box">
+                        {{person.tableid}}
+                        <span class="item-name">{{ item.name}}</span>
+                        {% if item.spiceLevel %}
+                        <span class="spice-level">Spice Level: {{ item.spiceLevel }}</span>
+                        {% endif %}
+                        {% if item.dietConscious %}
+                        <span class="diet-conscious">Diet Conscious</span>
+                        {% endif %}
+                        <span class="quantity">Quantity: {{ item.quantity }}</span>
+                    </div>
+                    {% endfor %}
+                    <form method="POST" action="{% url 'cook_site' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="person_id" value="{{person_id}}">
+                        <button type="submit" id="{{ person_id }}submit" class="submit-btn">Complete</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+    <script src="{% static 'cook_files/cook.js' %}"></script>
+</body>
+</html>
