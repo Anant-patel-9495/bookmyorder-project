@@ -16,7 +16,7 @@
         <div class="order-container">
             {% for person, orders in waiting_orders.items %}
             <div class="order-card">
-                <h2>{{ person }}</h2>
+                <h2>{{ person }}  {{person_id}}</h2>
                 <div class="item-container">
                     {% for item in orders %}
                     <div class="item-box">

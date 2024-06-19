@@ -188,14 +188,13 @@ def cart(request):
     return render(request, 'cart/cart.html')
 
 def cook_site(request):
-    if request.method == 'POST':
-        customer_id = request.POST.get('person_id')
-        print(customer_id)
-        order = Order.objects.get(customer_id=customer_id)
-        order.is_order_completed = True
-        order.save()
-        return redirect('cook_site')
-
+    # if request.method == 'POST':
+    #     customer_id = request.POST.get('person_id')
+        
+    #     order = Order.objects.get(customer_id=customer_id)
+    #     order.is_order_completed = True
+    #     order.save()
+    #     return redirect('cook_site')
 
     waiting_orders = Order.objects.filter(is_order_completed=False)
     orders_data = {}
