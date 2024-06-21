@@ -188,19 +188,23 @@ def cart(request):
     return render(request, 'cart/cart.html')
 
 def cook_site(request):
-    # if request.method == 'POST':
-    #     customer_id = request.POST.get('person_id')
-        
-    #     order = Order.objects.get(customer_id=customer_id)
-    #     order.is_order_completed = True
-    #     order.save()
-    #     return redirect('cook_site')
+    if request.method == "POST":
+        person = request.POST.get("person")
+        person_id = person.split(" ")[0]
+        order = Order.objects.get(customer_id=person_id)
+        order.is_order_completed = True
+        order.save()
+
 
     waiting_orders = Order.objects.filter(is_order_completed=False)
+    print(waiting_orders)
+    order_id = []
     orders_data = {}
     for order in waiting_orders:
         # Assuming items field in Order model is a JSONField
-        orders_data[order.customer_id.person_name] = order.items
+        order_id.append(order.customer_id.table_id)
+        person = f"{order.customer_id.table_id} - {order.customer_id.person_name}"
+        orders_data[person] = order.items
     return render(request, 'cook/cook.html', {'waiting_orders':orders_data})
 
 def user_bill(request):
