@@ -5,6 +5,10 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f3f3f3;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 header {

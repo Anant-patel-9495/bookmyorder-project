@@ -5,6 +5,13 @@
     box-sizing: border-box;
 }
 
+body{
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 /* Style for header */
 header {
     background-color: #f0f0f0;
