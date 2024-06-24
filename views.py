@@ -77,7 +77,7 @@ def login_page(request):
 
     return render(request, 'login.html')
 
-@login_required(login_url='login_page') # Specify the URL where users should be redirected if not logged in
+@login_required # Specify the URL where users should be redirected if not logged in
 def manager_site(request):
     return render(request, 'manager_site/manager_front_page.html')
 
@@ -111,21 +111,11 @@ def export_customer_data(request):
     for order in orders:
         all_orders.append(order.items)
     
-    total_quantities = {}
+    context = {
+        'all_orders': json.dumps(all_orders)
+    }
 
-    for order in all_orders:
-        for item in order:
-            name = item.get('name')
-            quantity = item.get('quantity')
-            if name and quantity:
-                if name in total_quantities:
-                    total_quantities[name] += quantity
-                else:
-                    total_quantities[name] = quantity
-    print(total_quantities)
-            
-
-    return render(request, 'manager_site/top_seller.html', {'total_quantities' : total_quantities})
+    return render(request, 'manager_site/sales_overview.html', context)
 
 def page1A(request):
     queryset = Dish.objects.filter(dish_type = 'appetizer')

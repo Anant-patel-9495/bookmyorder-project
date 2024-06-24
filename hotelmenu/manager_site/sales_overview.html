@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Orders Dashboard</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <style>
+        body, html {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: auto repeat(2, 1fr);
+            gap: 10px;
+            height: 100vh;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .chart {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        h1 {
+            grid-column: 1 / -1;
+            text-align: center;
+            color: #333;
+            margin: 0;
+            padding: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <h1>Restaurant Orders Dashboard</h1>
+        <div class="chart" id="total_sales_chart"></div>
+        <div class="chart" id="top_selling_items_chart"></div>
+        <div class="chart" id="average_order_value_chart"></div>
+        <div class="chart" id="spice_level_chart"></div>
+        <div class="chart" id="diet_conscious_chart"></div>
+        <div class="chart" id="orders_table"></div>
+    </div>
+
+    <script id="all_orders" type="application/json">
+        {{ all_orders|safe }}
+    </script>
+
+    <script>
+        google.charts.load('current', {'packages':['corechart', 'table']});
+        google.charts.setOnLoadCallback(drawCharts);
+
+        function drawCharts() {
+            const all_orders = JSON.parse(document.getElementById('all_orders').textContent);
+
+            drawTotalSalesChart(all_orders);
+            drawTopSellingItemsChart(all_orders);
+            drawAverageOrderValueChart(all_orders);
+            drawSpiceLevelDistributionChart(all_orders);
+            drawDietConsciousDistributionChart(all_orders);
+            drawOrdersTable(all_orders);
+        }
+
+        function drawTotalSalesChart(all_orders) {
+            const data = new google.visualization.DataTable();
+            data.addColumn('string', 'Item');
+            data.addColumn('number', 'Total Sales');
+
+            const salesMap = new Map();
+            all_orders.flat().forEach(item => {
+                const totalSale = item.price * item.quantity;
+                salesMap.set(item.name, (salesMap.get(item.name) || 0) + totalSale);
+            });
+
+            salesMap.forEach((value, key) => {
+                data.addRow([key, value]);
+            });
+
+            const options = {
+                title: 'Total Sales by Item',
+                chartArea: {width: '90%', height: '80%'},
+                legend: {position: 'bottom'}
+            };
+
+            const chart = new google.visualization.PieChart(document.getElementById('total_sales_chart'));
+            chart.draw(data, options);
+        }
+
+        function drawTopSellingItemsChart(all_orders) {
+            const data = new google.visualization.DataTable();
+            data.addColumn('string', 'Item');
+            data.addColumn('number', 'Quantity Sold');
+
+            const quantityMap = new Map();
+            all_orders.flat().forEach(item => {
+                quantityMap.set(item.name, (quantityMap.get(item.name) || 0) + item.quantity);
+            });
+
+            const sortedItems = Array.from(quantityMap.entries())
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 10);
+
+            sortedItems.forEach(([key, value]) => {
+                data.addRow([key, value]);
+            });
+
+            const options = {
+                title: 'Top 10 Selling Items',
+                chartArea: {width: '80%', height: '70%'},
+                legend: {position: 'none'}
+            };
+
+            const chart = new google.visualization.ColumnChart(document.getElementById('top_selling_items_chart'));
+            chart.draw(data, options);
+        }
+
+        function drawAverageOrderValueChart(all_orders) {
+            const data = new google.visualization.DataTable();
+            data.addColumn('number', 'Order Index');
+            data.addColumn('number', 'Order Value');
+
+            all_orders.forEach((order, index) => {
+                const orderValue = order.reduce((sum, item) => sum + item.price * item.quantity, 0);
+                data.addRow([index + 1, orderValue]);
+            });
+
+            const options = {
+                title: 'Order Values',
+                chartArea: {width: '80%', height: '70%'},
+                hAxis: { title: 'Order Index' },
+                vAxis: { title: 'Value (₹)' },
+                trendlines: { 0: {} },
+                legend: {position: 'none'}
+            };
+
+            const chart = new google.visualization.ScatterChart(document.getElementById('average_order_value_chart'));
+            chart.draw(data, options);
+        }
+
+        function drawSpiceLevelDistributionChart(all_orders) {
+            const data = new google.visualization.DataTable();
+            data.addColumn('string', 'Spice Level');
+            data.addColumn('number', 'Count');
+
+            const spiceLevelMap = new Map();
+            all_orders.flat().forEach(item => {
+                if (item.spiceLevel) {
+                    spiceLevelMap.set(item.spiceLevel, (spiceLevelMap.get(item.spiceLevel) || 0) + 1);
+                }
+            });
+
+            spiceLevelMap.forEach((value, key) => {
+                data.addRow([key, value]);
+            });
+
+            const options = {
+                title: 'Spice Level Distribution',
+                chartArea: {width: '90%', height: '80%'},
+                legend: {position: 'bottom'}
+            };
+
+            const chart = new google.visualization.PieChart(document.getElementById('spice_level_chart'));
+            chart.draw(data, options);
+        }
+
+        function drawDietConsciousDistributionChart(all_orders) {
+            const data = new google.visualization.DataTable();
+            data.addColumn('string', 'Diet Conscious');
+            data.addColumn('number', 'Count');
+
+            let dietConscious = 0;
+            let notDietConscious = 0;
+
+            all_orders.flat().forEach(item => {
+                if (item.hasOwnProperty('dietConscious')) {
+                    item.dietConscious ? dietConscious++ : notDietConscious++;
+                }
+            });
+
+            data.addRows([
+                ['Diet Conscious', dietConscious],
+                ['Not Diet Conscious', notDietConscious]
+            ]);
+
+            const options = {
+                title: 'Diet Conscious Distribution',
+                chartArea: {width: '90%', height: '80%'},
+                legend: {position: 'bottom'}
+            };
+
+            const chart = new google.visualization.PieChart(document.getElementById('diet_conscious_chart'));
+            chart.draw(data, options);
+        }
+
+        function drawOrdersTable(all_orders) {
+            const data = new google.visualization.DataTable();
+            data.addColumn('number', 'Order #');
+            data.addColumn('number', 'Items');
+            data.addColumn('number', 'Total Value');
+
+            all_orders.forEach((order, index) => {
+                const itemCount = order.reduce((sum, item) => sum + item.quantity, 0);
+                const orderValue = order.reduce((sum, item) => sum + item.price * item.quantity, 0);
+                data.addRow([index + 1, itemCount, orderValue]);
+            });
+
+            const options = {
+                title: 'Orders Summary',
+                page: 'enable',
+                pageSize: 5,
+                width: '100%',
+                height: '100%'
+            };
+
+            const table = new google.visualization.Table(document.getElementById('orders_table'));
+            table.draw(data, options);
+        }
+
+        window.addEventListener('resize', drawCharts);
+    </script>
+</body>
+</html>

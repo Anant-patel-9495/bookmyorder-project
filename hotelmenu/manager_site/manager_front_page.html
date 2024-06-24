@@ -12,13 +12,8 @@
 <div class="container">
     <h1>bookmyorder - Manager Site</h1>
 
-    <a href=""><div class="feature" id="salesOverview">
+    <a href="{% url 'sales_overview'%}"><div class="feature" id="salesOverview">
         <h2>Sales Overview</h2>
-    </div></a>
-
-    <a href="{% url 'top_Seller'%}"><div class="feature" id="topSellingItems">
-        <h2>Top Selling Items</h2>
-        <!-- Add content for Top Selling Items here -->
     </div></a>
 
     <a href="{% url 'add_dish' %}"><div class="feature" id="revenueBreakdown">

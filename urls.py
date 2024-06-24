@@ -39,6 +39,6 @@ urlpatterns = [
     path('user_cart/', views.cart, name='user_cart'),
     path('cook_site/', views.cook_site, name='cook_site'),
     path('user_bill/', views.user_bill, name='userbill'),
-    path('top_seller/', views.export_customer_data, name='top_Seller')
+    path('sales_overview/', views.export_customer_data, name='sales_overview')
     
 ]
